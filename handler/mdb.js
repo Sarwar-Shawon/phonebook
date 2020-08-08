@@ -48,7 +48,7 @@ class MDB
     {
         try
         {
-            console.log("set params:", params)
+            // console.log("set params:", params)
 
             const client     = await this.Client();
             const database   = client.db('phonebook')
@@ -56,7 +56,7 @@ class MDB
 
             const check_exists = await collection.find({number: params.number}).toArray()
 
-            console.log("check_exists", check_exists)
+            // console.log("check_exists", check_exists)
 
             if(check_exists.length)
                 return {resp: "Already exists"}
@@ -84,10 +84,13 @@ class MDB
 
             const database  =   client.db('phonebook');
             const collection  = database.collection('contacts');
-            //
-            const resp_data = await collection.find().toArray()
 
-            // console.log("resp_data", resp_data )
+            console.log("params", params)
+            //
+            const resp_data = params && params.number ?  await collection.find({number: params.number}).toArray()
+                : await collection.find().toArray()
+
+            console.log("resp_data", resp_data )
 
             return {resp: resp_data }
 
@@ -103,7 +106,7 @@ class MDB
     /**
      * Update
      */
-    Upd = async (id , params) =>
+    Upd = async (params) =>
     {
         try
         {
@@ -111,9 +114,9 @@ class MDB
             const database  =   client.db('phonebook')
             const collection  = database.collection('contacts')
 
-            const filter = { _id: ObjectId(id) };
+            const filter = { _id: ObjectId(params._id) };
 
-            console.log("update params", id , params)
+            // console.log("update params", params)
 
             const updateContact = {
                 $set: {
@@ -123,7 +126,7 @@ class MDB
             };
             await collection.findOneAndUpdate(filter, updateContact)
 
-            return {msg: "Ok"}
+            return {resp: "Ok"}
 
         }
         catch (err)
@@ -142,14 +145,14 @@ class MDB
             const database  =   client.db('phonebook')
             const collection  = database.collection('contacts')
 
-            console.log("delete id", id)
+            // console.log("delete id", id)
 
             const query = { _id :  ObjectId(id) };
 
             const result = await collection.deleteOne(query);
 
             if (result.deletedCount === 1)
-                return {msg: "Ok"}
+                return {resp: "Ok"}
             else
                 throw new Error("No contacts found.");
 

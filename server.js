@@ -1,20 +1,23 @@
 const serve = require('koa-static');
 const Koa = require('koa');
-const server = new Koa();
+const app = new Koa();
 const bodyParser = require('koa-body');
+const cors = require('@koa/cors');
 
 const router = require('./routes/index');
 
 const PORT = process.env.PORT || 8080 ;
 
-server.use(bodyParser())
+app.use(cors());
 
-server.use(router.routes())
+app.use(bodyParser())
+
+app.use(router.routes())
 
 
 if(process.env.NODE_ENV === 'production')
 {
-    server.use( serve('client/build'))
+    app.use( serve('client/build'))
 }
 
-server.listen(PORT);
+app.listen(PORT);
