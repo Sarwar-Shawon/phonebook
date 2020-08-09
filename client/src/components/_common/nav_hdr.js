@@ -28,13 +28,13 @@ class NavHdr extends React.PureComponent
     {
 
         return (
-            <Navbar sticky="top" fixed="top" expand="lg" variant="dark" className="navbarDiv" >
+            <Navbar sticky="top" fixed="top" expand="lg" variant="light" className="navbarDiv" >
 
                 <Navbar.Brand href='/' >
                     <div className="brandName">Phonebook</div>
                 </Navbar.Brand>
 
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
 
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="ml-auto">

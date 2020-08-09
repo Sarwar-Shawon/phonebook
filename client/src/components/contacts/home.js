@@ -55,16 +55,17 @@ class Contact_Home extends React.PureComponent
                 <div>
                     <NavHdr contact={true} />
                     <div style={{
+                        display: 'flex',
                         padding: 32,
                         marginLeft: "auto",
                         marginRight: "auto",
-                        height: 300,
-                        width: 600
+                        alignItems: 'center',
+                        justifyContent:'center'
+
                     }}>
                         <ContentLoader
-                            height={80}
-                            width={200}
-                            speed={1}
+                            height={400}
+                            speed={0.5}
                             primaryColor="#f3f3f3"
                             secondaryColor="#ecebeb"
                         >
@@ -105,7 +106,7 @@ class Contact_Home extends React.PureComponent
                    }
                    <div style={{flexDirection: "row", display: "flex", marginTop: 20}}>
 
-                       <div style={{flex: 1}}>
+                       <div style={{flex: 1,margin: 10}}>
                            <TextInput
                                placeholder="Search from db by phone number"
                                type="text"
@@ -117,7 +118,7 @@ class Contact_Home extends React.PureComponent
 
                        </div>
 
-                       <Button onClick={() => this.loadContact() } variant="info">
+                       <Button style={{margin: 10}} onClick={() => this.loadContact() } variant="info">
                            Search
                        </Button>
 
@@ -125,7 +126,7 @@ class Contact_Home extends React.PureComponent
 
                    </div>
 
-                   <div>
+                   <div style={{marginTop: 20}}>
                        <Row>
                            {
                                !this.state.allContacts.length ?
@@ -207,7 +208,7 @@ class Contact_Home extends React.PureComponent
 
             const resp = this.state.phone_number ?  await getContact({number: this.state.phone_number}) : await getContactList()
 
-            console.log("all contacts", resp)
+            // console.log("all contacts", resp)
 
             this.setState({allContacts: resp , bLoad: false })
 
@@ -219,44 +220,14 @@ class Contact_Home extends React.PureComponent
         }
 
     };
-    /**
-     */
-    searchByNumber = async () =>
-    {
-        try
-        {
-            const pattern = /\+?(88)?0?1[356789][0-9]{8}\b/g;
 
-
-            if(this.state.phone_number && !pattern.test(this.state.phone_number))
-            {
-                this.setState({errMsg: "Please enter the correct BD phone number format"})
-                return
-            }
-
-            this.setState({bLoad: true})
-
-            const resp = this.state.phone_number ?  await getContactList({number: this.state.phone_number}) : await getContactList()
-
-            console.log("all contacts", resp)
-
-            this.setState({allContacts: resp , bLoad: false })
-
-        }
-        catch (err)
-        {
-
-            return Promise.reject(err)
-        }
-
-    };
     /**
      */
     deleteContact = (contact) =>
     {
         try
         {
-            console.log("contact", contact)
+            // console.log("contact", contact)
 
             confirmAlert({
                 title: "Do you want to delete this contact",
@@ -296,7 +267,7 @@ class Contact_Home extends React.PureComponent
 
             const resp_data = await deleteContact(contact._id)
 
-            console.log("delete contacts", resp_data)
+            // console.log("delete contacts", resp_data)
 
             if(resp_data.resp && resp_data.resp.toLowerCase() === 'ok')
                 this.setState({allContacts : this.state.allContacts.filter(x=> x.number !== contact.number ) })
@@ -340,8 +311,6 @@ class Contact_Add extends React.PureComponent
     constructor( props )
     {
         super( props )
-
-        console.log("props", this.props)
 
         this.state = {
 
@@ -465,7 +434,7 @@ class Contact_Add extends React.PureComponent
             }
             const resp_data = await addContact(contact)
 
-            console.log("edit contacts", resp_data)
+            // console.log("edit contacts", resp_data)
 
             this.setState({bedit: false})
             this.props.hideModal()
@@ -508,7 +477,7 @@ class Contact_Add extends React.PureComponent
 
             const resp_data = await updateContact(contact)
 
-            console.log("edit contacts", resp_data)
+            // console.log("edit contacts", resp_data)
 
             this.setState({bedit: false})
 
