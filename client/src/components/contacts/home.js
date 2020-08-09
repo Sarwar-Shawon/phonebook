@@ -231,7 +231,7 @@ class Contact_Home extends React.PureComponent
 
             confirmAlert({
                 title: "Do you want to delete this contact",
-                message: 'From Profile',
+                message: "",
                 buttons: [
                     {
                         label: 'Yes',
